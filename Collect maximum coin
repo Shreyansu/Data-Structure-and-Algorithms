@@ -1,0 +1,76 @@
+Collect maximum coins before hitting a dead end
+Last Updated: 11-10-2018
+Given a character matrix where every cell has one of the following values.
+
+'C' -->  This cell has coin
+
+'#' -->  This cell is a blocking cell. 
+         We can not go anywhere from this.
+
+'E' -->  This cell is empty. We don't get
+         a coin, but we can move from here.  
+         
+         
+         
+         
+         #include <bits/stdc++.h>
+using namespace std;
+#define R 5
+#define c 5
+
+
+bool isvalid(int i,int j)
+{
+    return(i>=0 && i<R && j>=0 && j<c);
+}
+
+// int maxcoin(char mat[R][c],int i,int j,int dir)
+// {
+//     if(isvalid(i,j)==false || mat[i][j]=='#')
+//         return 0;
+    
+//     int result=(mat[i][j]=='C')?1:0;
+    
+//     if(dir==1)
+//     {
+//         return result+max(maxcoin(mat,i,j+1,1),maxcoin(mat,i+1,j,0));
+//     }
+//     return result+max(maxcoin(mat,i,j-1,0),maxcoin(mat,i+1,j,1));
+// }
+// Recursive approach||^^
+
+    int maxcoin(char mat[R][c],int i,int j,int dir,int dp[R][c][2])
+    {
+        if(isvalid(i,j)==false || mat[i][j]=='#')
+            return 0;
+            
+        if(dp[i][j][dir]!=-1)
+            return dp[i][j][dir];
+        dp[i][j][dir]=(mat[i][j]=='C')?1:0;
+        
+        if(dir==1)
+            dp[i][j][dir]+=max(maxcoin(mat,i,j+1,1,dp),maxcoin(mat,i+1,j,0,dp));
+        if(dir==0)
+            dp[i][j][dir]+=max(maxcoin(mat,i,j-1,0,dp),maxcoin(mat,i+1,j,1,dp));
+            
+        return dp[i][j][dir];
+    }
+
+
+int main() {
+    
+    int dp[R][c][2];
+    memset(dp,-1,sizeof(dp));
+    
+     char mat[R][c] = { {'E', 'C', 'C', 'C', 'C'}, 
+                       {'C', '#', 'C', '#', 'E'}, 
+                       {'#', 'C', 'C', '#', 'C'}, 
+                       {'C', 'E', 'E', 'C', 'E'}, 
+                       {'C', 'E', '#', 'C', 'E'} 
+                     };
+                     
+    cout<<maxcoin(mat,0,0,1,dp);
+    
+    
+	return 0;
+}

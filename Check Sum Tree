@@ -1,0 +1,77 @@
+Check if a given Binary Tree is SumTree
+Last Updated: 29-05-2018
+Write a function that returns true if the given Binary Tree is SumTree else false. A SumTree is a Binary Tree where the value of a node is equal to sum of the nodes present in its left subtree and right subtree. An empty tree is SumTree and sum of an empty tree can be considered as 0. A leaf node is also considered as SumTree.
+
+Following is an example of SumTree.
+
+          26
+        /   \
+      10     3
+    /    \     \
+  4      6      3
+
+
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+struct node* newNode(int data)
+{
+    struct node *node=(struct node*)malloc(sizeof(struct node));
+    node->data=data;
+    node->left=NULL;
+    node->right=NULL;
+    return node;
+}
+int sum(struct node* node)
+{
+    if(node==NULL)
+        return 0;
+    return node->data+sum(node->left)+sum(node->right);
+}
+
+int check(struct node* node)
+{
+    if(node==NULL || (node->left==NULL && node->right==NULL))
+        return 1;
+    int tc=sum(node);
+    if((tc-node->data)==node->data && check(node->left) && check(node->right))
+        return 1;
+    else
+        return 0;
+}
+
+
+int main() 
+{
+    struct node *root = newNode(26); 
+    root->left     = newNode(10); 
+    root->right = newNode(3); 
+    root->left->left = newNode(4); 
+    root->left->right = newNode(6); 
+    root->right->right = newNode(3);
+    
+    int t=sum(root);
+    int un=check(root);
+    
+    cout<<un;
+    
+    
+	return 0;
+}

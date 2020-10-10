@@ -1,0 +1,76 @@
+
+Given an array A of length N.
+
+We have to find the maximum sum of elements of the subarray between two nearest occurrences of same elements (excluding both).l
+If both the elements are even then the total number of even elements in that subarray should be even then and then only we consider
+that subarray and if both the elements are odd then the total number of odd element in that subarray should be odd then and then only we consider that subarray.
+
+If the condition never matches print 0.
+
+Input:
+First line contains T, number of test cases. Then the test cases follow.
+Each testcase consists of two lines: The first line has N : number of elements in the array and second-line has N space separated integers: elements of the array.
+Output:
+For each test case, output in a single line maximum sum.
+Constraints
+1≤T≤10
+3≤N≤2∗105
+1≤A[i]≤108
+NOTE: Use of Fast Input Output is recommended.
+
+Sample Input:
+1
+10
+1 2 3 2 1 5 1 2 8 2
+
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    
+    ll n,i,j,k;
+    cin>>n;
+    int arr[n];
+    vector<pair<ll,ll>> v;
+    for(int i=0;i<n;i++)
+        {
+            cin>>arr[i];
+            v.push_back(make_pair(arr[i],i));
+            
+        }
+    for(int i=1;i<n;i++)
+        arr[i]=arr[i]+arr[i-1];
+    
+    ll m=0;
+    sort(v.begin(),v.end());
+    for(int i=1;i<v.size();i++)
+    {
+        if(v[i].first==v[i-1].first)
+        {
+            ll size=v[i].second-v[i-1].second-1;
+            ll sum=arr[v[i].second-1]-arr[v[i-1].second];
+            if(v[i].first%2==1)
+            {
+                if(sum%2==1)
+                    m=max(m,sum);
+            }
+            else
+            {
+                if((size%2==0 && sum%2==0)||(size%2==1 && sum%2==1))
+                    m=max(m,sum);
+            }
+        }
+    }
+    cout<<m<<endl;
+}

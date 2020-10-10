@@ -1,0 +1,82 @@
+Maximum sum Bi-tonic Sub-sequence
+Last Updated: 09-07-2018
+Given an array of integers. A subsequence of arr[] is called Bitonic if it is first increasing, then decreasing.
+
+Examples :
+
+Input : arr[] = {1, 15, 51, 45, 33, 
+                   100, 12, 18, 9}
+Output : 194
+Explanation : Bi-tonic Sub-sequence are :
+             {1, 51, 9} or {1, 50, 100, 18, 9} or
+             {1, 15, 51, 100, 18, 9}  or 
+             {1, 15, 45, 100, 12, 9}  or 
+             {1, 15, 45, 100, 18, 9} .. so on            
+Maximum sum Bi-tonic sub-sequence is 1 + 15 +
+51 + 100 + 18 + 9 = 194   
+
+Input : arr[] = {80, 60, 30, 40, 20, 10} 
+Output : 210  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int bi(int arr[],int n)
+{
+	int lis[n],lds[n],l[n];
+	lis[0]=arr[0];
+	lds[n-1]=arr[n-1];
+	
+	for(int i=1;i<n;i++)
+	{
+		lis[i]=arr[i];
+		
+		for(int j=0;j<i;j++)
+		{
+			if(arr[i]>arr[j] && lis[j]+arr[i]>lis[i])
+				lis[i]=lis[j]+arr[i];
+			
+		}
+	}
+	for(int i=n-2;i>=0;i--)
+	{
+		lds[i]=arr[i];
+		for(int j=n-1;j>i;j--)
+		{
+			if(arr[i]>arr[j] && lds[i]<lds[j]+arr[i])
+				lds[i]=lds[j]+arr[i];
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		l[i]=lis[i]+lds[i]-arr[i];
+		
+	}
+	
+	
+	return *max_element(l,l+n);
+}
+
+
+int main()
+{
+	int arr[]={1,15,51,45,33,100,12,18,9};
+	cout<<bi(arr,9);
+	return 0;
+	
+}

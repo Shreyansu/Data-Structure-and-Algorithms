@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void addEdge(vector<int> adj[],int source,int dest)
+{
+    adj[source].push_back(dest);
+    adj[dest].push_back(source);
+}
+void bfs(vector<int> adj[],int s,int n)
+{
+    vector<bool> vis(n,false);
+    queue<int> q;
+    q.push(s);
+    vis[s]=true;
+    while(!q.empty())
+    {
+        s=q.front();
+        cout<<s<<" ";
+        q.pop();
+        for(auto i:adj[s])
+        {
+            if(!vis[i])
+            {
+                vis[i]=true;
+                q.push(i);
+            }
+            
+        }
+    }
+}
+
+int main() 
+{
+    int n;
+    cin>>n;
+    vector<int> adj[n];
+    addEdge(adj,0, 1); 
+    addEdge(adj,0, 2); 
+    addEdge(adj,1, 2); 
+    addEdge(adj,2, 0); 
+    addEdge(adj,2, 3); 
+    addEdge(adj,3, 3);
+    
+    bfs(adj,2,n);
+    
+    
+    return 0;
+}

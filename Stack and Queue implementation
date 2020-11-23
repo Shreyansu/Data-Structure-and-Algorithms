@@ -1,0 +1,160 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct dq
+{
+    int val;
+    dq* prev;
+    dq* next;
+};
+
+class dequ
+{
+    dq* head;
+    dq* tail;
+    public:
+        dequ()
+    {
+        head=NULL;
+        tail=NULL;
+    }
+    bool isEmpty()
+    {
+        if(head==NULL)
+            return true;
+        return false;
+            
+    }
+    int dsize()
+    {
+        dq* temp=head;
+        if(head==NULL)
+            return 0;
+        int c=0;
+        while(temp!=NULL)
+        {
+            c++;
+            temp=temp->next;
+        }
+        return c;
+    }
+    
+    void insert_first(int data)
+    {
+        dq* temp=new dq[sizeof(dq)];
+        temp->val=data;
+        if(head==NULL)
+        {
+            head=temp;
+            tail=temp;
+            temp->next=temp->prev=NULL;
+        }
+        else
+        {
+            head->prev=temp;
+            temp->next=head;
+            temp->prev=NULL;
+            head=temp;
+        }
+    }
+    void insert_last(int data)
+    {
+        dq* temp=new dq[sizeof(dq)];
+        temp->val=data;
+        if(tail==NULL)
+        {
+            head=temp;
+            tail=temp;
+            temp->next=temp->prev=NULL;
+            
+        }
+        else
+        {
+            tail->next=temp;
+            temp->prev=tail;
+            temp->next=NULL;
+            tail=temp;
+        }
+        
+    }
+    void delete_first()
+    {
+        if(!isEmpty())
+        {
+            dq*temp=head;
+            head=head->next;
+            head->prev=NULL;
+            free(temp);
+            return;
+        }
+        cout<<"Empty list"<<endl;
+    }
+    void delete_end()
+    {
+        if(!isEmpty())
+        {
+            dq* temp=tail;
+            tail=tail->prev;
+            tail->next=NULL;
+            free(temp);
+            return;
+        }
+        cout<<"empty list"<<endl;
+    }
+    void display()
+    {
+        if(!isEmpty())
+        {
+            dq* temp=head;
+            while(temp!=NULL)
+            {
+                cout<<temp->val<<" "<<endl;
+                temp=temp->next;
+            }
+            cout<<endl;
+            return;
+        }
+        cout<<"empty list"<<endl;
+        
+    }
+};
+class stac : public dequ
+{
+    public:
+        void psh(int d)
+            {insert_last(d);}
+        void pp()
+            {delete_end();}
+    
+};
+class queu : public dequ
+{
+    public:
+        void psh(int d)
+            {insert_last(d);}
+        void pp()
+            {delete_first();}
+};
+
+int main()
+{
+    stac st;
+    st.psh(4);
+    st.psh(5);
+    st.psh(8);
+    st.psh(15);
+    st.pp();
+    st.display();
+    
+    queu q;
+    q.psh(17);
+    q.psh(18);
+    q.pp();
+    q.psh(100);
+    q.display();
+    
+    cout<<"size stcak"<<st.dsize()<<endl;
+    cout<<"que size"<<q.dsize()<<endl;
+    
+    return 0;
+}

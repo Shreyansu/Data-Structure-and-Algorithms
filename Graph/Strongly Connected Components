@@ -1,0 +1,70 @@
+
+void dfs(int i,vector<int> adj[],stack<int>& st,vector<bool>& vis)
+{
+    vis[i]=true;
+    for(int j=0;j<adj[i].size();++j)
+    {
+        if(!vis[adj[i][j]])
+            dfs(adj[i][j],adj,st,vis);
+    }
+    st.push(i);
+}
+void reverse(int V,vector<int> adj[],vector<int> res[])
+{
+    for(int i=0;i<V;i++)
+    {
+        for(int j=0;j<adj[i].size();++j)
+        {
+            res[adj[i][j]].push_back(i);
+        }
+    }
+}
+
+void dfs2(int i,vector<int> res[],vector<bool>& vis)
+{
+    // cout<<i<<" ";
+    vis[i]=true;
+    for(int j=0;j<res[i].size();++j)
+    {
+        if(!vis[res[i][j]])
+            dfs2(res[i][j],res,vis);
+    }
+    
+}
+
+int kosaraju(int V, vector<int> adj[])
+{
+    // Your code here
+    stack<int> st;
+    vector<bool> vis(V,false);
+    // for(int  i=0;i<V;i++)
+    //     vis[i]=false;
+    for(int i=0;i<V;++i)
+    {
+        if(!vis[i])
+            dfs(i,adj,st,vis);
+    }
+    for(int i=0;i<V;++i)
+        vis[i]=false;
+    vector<int> res[V];
+    reverse(V,adj,res);
+    int count=0;
+    // cout<<st.size()<<endl;
+    while(!st.empty())
+    {
+        int x=st.top();
+        st.pop();
+        
+        if(!vis[x])
+        {
+            count++;
+            dfs2(x,res,vis);
+            // cout<<endl;
+            
+        }
+        
+    }
+    
+    return count;
+    
+}

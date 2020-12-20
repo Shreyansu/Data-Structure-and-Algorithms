@@ -45,3 +45,44 @@ int main()
 	return 0;
 	
 }
+
+
+
+
+// NlogN approach using binary Search
+
+
+
+
+int bin(vector<int>& seq,int x)
+{
+    int low=0,high=seq.size()-1;
+    while(high>low)
+    {
+        
+        int mid=low+(high-low)/2;
+        if(seq[mid]<x)
+            low=mid+1;
+        else
+            high=mid;
+    }
+    
+    return high;
+    
+}
+
+
+int longestSubsequence(int n, int a[])
+{
+   vector<int> seq;
+   seq.push_back(a[0]);
+   for(int i=1;i<n;i++)
+    {
+        if(a[i]>seq.back())
+            seq.push_back(a[i]);
+        else
+            {int ind=bin(seq,a[i]);
+            seq[ind]=a[i];}
+    }
+    return seq.size();
+}
